@@ -30,4 +30,4 @@ jobs:
       - name: Run tests
         env:
           TOKEN: ${{ vars.TOKEN }}
-        run: npm test
+        run: npx mocha api.test.js

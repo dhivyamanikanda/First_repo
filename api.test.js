@@ -1,5 +1,4 @@
 const assert = require('assert');
-const axios = require('axios');
 const http = require('http');
 
 describe('API Tests', () => {

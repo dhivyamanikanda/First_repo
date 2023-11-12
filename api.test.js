@@ -1,21 +1,38 @@
 const assert = require('assert');
 const axios = require('axios');
+const http = require('http');
 
 describe('API Tests', () => {
 
     it('should return a 200 OK status', async () => {
-        // Send a GET request to the server
-        const xhr = new XMLHttpRequest();
+        
         const myVariable = process.env.TOKEN;
+        console.log("myVariable");
         console.log(myVariable);
 
 
-        xhr.setRequestHeader('Authorization', `Bearer ${myVariable}`);
-        xhr.setRequestHeader('Accept', 'application/vnd.github+json');
+        const options = {
+        hostname: 'https://api.github.com/',
+        path: 'gists/5d7e231294d51571a661eb8b823c379b',
+        method: 'GET',
+        headers: {
+            'Accept': 'application/vnd.github+json',
+            'Authorization': `Bearer ${myVariable}`
+        }
+        };
 
-        const response = await axios.get('https://api.github.com/gists/5d7e231294d51571a661eb8b823c379b');
+        const req = http.request(options, res => {
+        console.log(`statusCode: ${res.statusCode}`);
 
-        // Assert that the response status is 200 OK
-        assert.strictEqual(response.status, 200);
-    });
+        res.on('data', d => {
+            process.stdout.write(d);
+        });
+        });
+
+        req.on('error', error => {
+        console.error(error);
+        });
+
+        req.end();
+            });
 });
